@@ -15,8 +15,8 @@ export default class Symlink implements Plugin {
   name = "symlink";
 
   // links[n][0]: 実体 links[n][1]: シンボリックリンク
-  private links: { from: URL; to: URL }[] = [];
-  private dotfilesDir: string;
+  protected links: { from: URL; to: URL }[] = [];
+  protected dotfilesDir: string;
 
   constructor(dfm: Dfm, links: [string, string][]) {
     // set dotfiles basedir
