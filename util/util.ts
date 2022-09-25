@@ -1,8 +1,15 @@
 import { join, resolve } from "../deps.ts";
 
-const homedir = Deno.env.get("HOME");
+function getHomeDir() {
+  if(os() === "windows") {
+    return Deno.env.get("USERPROFILE");
+  } else {
+    return Deno.env.get("HOME");
+  }
+}
 
 export function expandTilde(path: string) {
+  const homedir = getHomeDir();
   if (homedir === undefined) {
     return path;
   } else {
