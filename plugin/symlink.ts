@@ -15,8 +15,8 @@ export default class Symlink implements Plugin {
   name = "symlink";
 
   // links[n][0]: 実体 links[n][1]: シンボリックリンク
-  private links: { from: URL; to: URL }[] = [];
-  private dotfilesDir: string;
+  protected links: { from: URL; to: URL }[] = [];
+  protected dotfilesDir: string;
 
   constructor(dfm: Dfm, links: [string, string][]) {
     // set dotfiles basedir
@@ -42,7 +42,7 @@ export default class Symlink implements Plugin {
 
   list() {
     this.links.forEach((link) => {
-      console.log(`・ ${link.from.pathname} → ${link.to.pathname}`);
+      console.log(`・ ${fromFileUrl(link.from)} → ${fromFileUrl(link.to)}`);
     });
     return true;
   }
@@ -102,8 +102,8 @@ function check_symlink(link: { from: URL; to: URL }): boolean {
 // syncコマンドから直接呼ばれる
 function ensure_make_symlinks(links: { from: URL; to: URL }[]): boolean {
   let err = links.map((link) => {
-    const from = link.from.pathname;
-    const to = link.to.pathname;
+    const from = fromFileUrl(link.from);
+    const to = fromFileUrl(link.to);
     ensureDirSync(dirname(to));
     if (!check_symlink(link)) {
       try {
