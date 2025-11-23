@@ -1,6 +1,6 @@
 import { join, resolve } from "../deps.ts";
 
-const getHomeDir = () {
+const getHomeDir = (): string => {
   if(os() === "windows") {
     return Deno.env.get("USERPROFILE");
   } else {
